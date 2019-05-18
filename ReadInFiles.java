@@ -17,11 +17,22 @@ public class ReadInFiles {
 		List<String> namesArray = new ArrayList<>();
 
 		// filename to read
-		String fileName = "BowserBatters.csv";
-		//String fileName = args[0];
+		String marioFile = "MarioBatters.csv";
+		marioFile = args[0];
+		String peachFile = "PeachBatters.csv";
+		peachFile = args[1];
+		String yoshiFile = "YoshiBatters.csv";
+		yoshiFile = args[2];
+		String dkFile = "DKBatters.csv";
+		dkFile = args[3];
+		String warioFile = "WarioBatters.csv";
+		warioFile = args[4];
+		String bowserFile = "BowserBatters.csv";
+		bowserFile = args[5];
+		int x = 0;
 
 		try {
-			Scanner scanner = new Scanner(new File(fileName));
+			Scanner scanner = new Scanner(new File(args[x]));
 			while (scanner.hasNextLine()) {
 				
 //				String[] arrayToSeparate = new String[1];
