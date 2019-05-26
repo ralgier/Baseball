@@ -1,17 +1,15 @@
 import java.util.ArrayDeque;
-import java.util.Deque;
 
 public class Batters {
-
-	public static void main(String[] args) {
 		
-		ArrayDeque<Player> mario = new ArrayDeque<Player>();
-		ArrayDeque<Player> bowser = new ArrayDeque<Player>();
-		ArrayDeque<Player> dk = new ArrayDeque<Player>();
-		ArrayDeque<Player> peach = new ArrayDeque<Player>();
-		ArrayDeque<Player> wario = new ArrayDeque<Player>();
-		ArrayDeque<Player> yoshi = new ArrayDeque<Player>();
+		static ArrayDeque<Player> mario = new ArrayDeque<Player>();
+		static ArrayDeque<Player> bowser = new ArrayDeque<Player>();
+		static ArrayDeque<Player> dk = new ArrayDeque<Player>();
+		static ArrayDeque<Player> peach = new ArrayDeque<Player>();
+		static ArrayDeque<Player> wario = new ArrayDeque<Player>();
+		static ArrayDeque<Player> yoshi = new ArrayDeque<Player>();
 		
+		public static void addBatters() {
 		//name, single, double, triple, homer, walk
 		//Mario
 		Player GreenNoki = new Player("GreenNoki", 200, 60, 5, 10, 70);
@@ -133,6 +131,5 @@ public class Batters {
 		Player BlueShyGuy =new Player("BlueShyGuy",140,40,2,25,40);
 		yoshi.add(BlueShyGuy);
 		
-	}
-
+		}
 }
