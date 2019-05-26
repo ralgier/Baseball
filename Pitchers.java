@@ -1,52 +1,98 @@
+import java.util.ArrayDeque;
 
 public class Pitchers {
 	
+	static ArrayDeque<Pitcher> marioPitchers = new ArrayDeque<Pitcher>();
+	static ArrayDeque<Pitcher> bowserPitchers = new ArrayDeque<Pitcher>();
+	static ArrayDeque<Pitcher> dkPitchers = new ArrayDeque<Pitcher>();
+	static ArrayDeque<Pitcher> peachPitchers = new ArrayDeque<Pitcher>();
+	static ArrayDeque<Pitcher> warioPitchers = new ArrayDeque<Pitcher>();
+	static ArrayDeque<Pitcher> yoshiPitchers = new ArrayDeque<Pitcher>();
+	
+	public static void addPitcher() {
 	//Mario
-	static Pitcher MarioStarter = new Pitcher("MarioStarter", 100, 100);
-	static Pitcher MarioReliever1 = new Pitcher("MarioReliever1", 100, 100);
-	static Pitcher MarioReliever2 = new Pitcher("MarioReliever2", 100, 100);
-	static Pitcher MarioReliever3 = new Pitcher("MarioReliever3", 100, 100);
-	static Pitcher MarioCloser = new Pitcher("MarioCloser", 100, 100);
-	static Pitcher MarioBasePitcher = new Pitcher("MarioBasePitcher", -200, 9999999);
+	Pitcher MarioStarter = new Pitcher("MarioStarter", 50, 105);
+	marioPitchers.add(MarioStarter);
+	Pitcher MarioReliever1 = new Pitcher("MarioReliever1", 30, 25);
+	marioPitchers.add(MarioReliever1);
+	Pitcher MarioReliever2 = new Pitcher("MarioReliever2", 30, 25);
+	marioPitchers.add(MarioReliever2);
+	Pitcher MarioReliever3 = new Pitcher("MarioReliever3", 30, 20);
+	marioPitchers.add(MarioReliever3);
+	Pitcher MarioCloser = new Pitcher("MarioCloser", 50, 15);
+	marioPitchers.add(MarioCloser);
+	Pitcher MarioBasePitcher = new Pitcher("MarioBasePitcher", 0, 9999999);
+	marioPitchers.add(MarioBasePitcher);
 	
 	//Bowser
-	static Pitcher BowserStarter = new Pitcher("BowserStarter", 100, 100);
-	static Pitcher BowserReliever1 = new Pitcher("BowserReliever1", 100, 100);
-	static Pitcher BowserReliever2 = new Pitcher("BowserReliever2", 100, 100);
-	static Pitcher BowserReliever3 = new Pitcher("BowserReliever3", 100, 100);
-	static Pitcher BowserCloser = new Pitcher("BowserMarioCloser", 100, 100);
-	static Pitcher BowserBasePitcher = new Pitcher("BowserBasePitcher", -200, 9999999);
+	Pitcher BowserStarter = new Pitcher("BowserStarter", 55, 95);
+	bowserPitchers.add(BowserStarter);
+	Pitcher BowserReliever1 = new Pitcher("BowserReliever1", 25, 20);
+	bowserPitchers.add(BowserReliever1);
+	Pitcher BowserReliever2 = new Pitcher("BowserReliever2", 25, 20);
+	bowserPitchers.add(BowserReliever2);
+	Pitcher BowserReliever3 = new Pitcher("BowserReliever3", 20, 15);
+	bowserPitchers.add(BowserReliever3);
+	Pitcher BowserCloser = new Pitcher("BowserMarioCloser", 30, 15);
+	bowserPitchers.add(BowserCloser);
+	Pitcher BowserBasePitcher = new Pitcher("BowserBasePitcher", 0, 9999999);
+	bowserPitchers.add(BowserBasePitcher);
 	
 	//DK
-	static Pitcher DKStarter = new Pitcher("DKStarter", 100, 100);
-	static Pitcher DKReliever1 = new Pitcher("DKReliever1", 100, 100);
-	static Pitcher DKReliever2 = new Pitcher("DKReliever2", 100, 100);
-	static Pitcher DKReliever3 = new Pitcher("DKReliever3", 100, 100);
-	static Pitcher DKCloser = new Pitcher("DKCloser", 100, 100);
-	static Pitcher DKBasePitcher = new Pitcher("DKBasePitcher", -200, 9999999);
+	Pitcher DKStarter = new Pitcher("DKStarter", 50, 100);
+	dkPitchers.add(DKStarter);
+	Pitcher DKReliever1 = new Pitcher("DKReliever1", 30, 20);
+	dkPitchers.add(DKReliever1);
+	Pitcher DKReliever2 = new Pitcher("DKReliever2", 30, 20);
+	dkPitchers.add(DKReliever2);
+	Pitcher DKReliever3 = new Pitcher("DKReliever3", 30, 20);
+	dkPitchers.add(DKReliever3);
+	Pitcher DKCloser = new Pitcher("DKCloser", 70, 10);
+	dkPitchers.add(DKCloser);
+	Pitcher DKBasePitcher = new Pitcher("DKBasePitcher", 0, 9999999);
+	dkPitchers.add(DKBasePitcher);
 	
 	//Peach
-	static Pitcher PeachStarter = new Pitcher("PeachStarter", 100, 100);
-	static Pitcher PeachReliever1 = new Pitcher("PeachReliever1", 100, 100);
-	static Pitcher PeachReliever2 = new Pitcher("PeachReliever2", 100, 100);
-	static Pitcher PeachReliever3 = new Pitcher("PeachReliever3", 100, 100);
-	static Pitcher PeachCloser = new Pitcher("PeachCloser", 100, 100);
-	static Pitcher PeachBasePitcher = new Pitcher("PeachBasePitcher", -200, 9999999);
+	Pitcher PeachStarter = new Pitcher("PeachStarter", 70, 110);
+	peachPitchers.add(PeachStarter);
+	Pitcher PeachReliever1 = new Pitcher("PeachReliever1", 40, 30);
+	peachPitchers.add(PeachReliever1);
+	Pitcher PeachReliever2 = new Pitcher("PeachReliever2", 40, 30);
+	peachPitchers.add(PeachReliever2);
+	Pitcher PeachReliever3 = new Pitcher("PeachReliever3", 40, 30);
+	peachPitchers.add(PeachReliever3);
+	Pitcher PeachCloser = new Pitcher("PeachCloser", 60, 20);
+	peachPitchers.add(PeachCloser);
+	Pitcher PeachBasePitcher = new Pitcher("PeachBasePitcher", 0, 9999999);
+	peachPitchers.add(PeachBasePitcher);
 	
 	//Wario
-	static Pitcher WarioStarter = new Pitcher("WarioStarter", 100, 100);
-	static Pitcher WarioReliever1 = new Pitcher("WarioReliever1", 100, 100);
-	static Pitcher WarioReliever2 = new Pitcher("WarioReliever2", 100, 100);
-	static Pitcher WarioReliever3 = new Pitcher("WarioReliever3", 100, 100);
-	static Pitcher WarioCloser = new Pitcher("WarioCloser", 100, 100);
-	static Pitcher WarioBasePitcher = new Pitcher("WarioBasePitcher", -200, 9999999);
+	Pitcher WarioStarter = new Pitcher("WarioStarter", 75, 95);
+	warioPitchers.add(WarioStarter);
+	Pitcher WarioReliever1 = new Pitcher("WarioReliever1", 30, 20);
+	warioPitchers.add(WarioReliever1);
+	Pitcher WarioReliever2 = new Pitcher("WarioReliever2", 30, 20);
+	warioPitchers.add(WarioReliever2);
+	Pitcher WarioReliever3 = new Pitcher("WarioReliever3", 30, 20);
+	warioPitchers.add(WarioReliever3);
+	Pitcher WarioCloser = new Pitcher("WarioCloser", 50, 15);
+	warioPitchers.add(WarioCloser);
+	Pitcher WarioBasePitcher = new Pitcher("WarioBasePitcher", 0, 9999999);
+	warioPitchers.add(WarioBasePitcher);
 	
 	//Yoshi
-	static Pitcher YoshiStarter = new Pitcher("YoshiStarter", 100, 100);
-	static Pitcher YoshiReliever1 = new Pitcher("YoshiReliever1", 100, 100);
-	static Pitcher YoshiReliever2 = new Pitcher("YoshiReliever2", 100, 100);
-	static Pitcher YoshiReliever3 = new Pitcher("YoshiReliever3", 100, 100);
-	static Pitcher YoshiCloser = new Pitcher("YoshiCloser", 100, 100);
-	static Pitcher YoshiBasePitcher = new Pitcher("YoshiBasePitcher", -200, 9999999);
+	Pitcher YoshiStarter = new Pitcher("YoshiStarter", 50, 100);
+	yoshiPitchers.add(YoshiStarter);
+	Pitcher YoshiReliever1 = new Pitcher("YoshiReliever1", 25, 30);
+	yoshiPitchers.add(YoshiReliever1);
+	Pitcher YoshiReliever2 = new Pitcher("YoshiReliever2", 25, 30);
+	yoshiPitchers.add(YoshiReliever2);
+	Pitcher YoshiReliever3 = new Pitcher("YoshiReliever3", 25, 30);
+	yoshiPitchers.add(YoshiReliever3);
+	Pitcher YoshiCloser = new Pitcher("YoshiCloser", 40, 20);
+	yoshiPitchers.add(YoshiCloser);
+	Pitcher YoshiBasePitcher = new Pitcher("YoshiBasePitcher", 0, 9999999);
+	yoshiPitchers.add(YoshiBasePitcher);
 
+	}
 }
