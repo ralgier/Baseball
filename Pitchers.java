@@ -33,7 +33,7 @@ public class Pitchers {
 	bowserPitchers.add(BowserReliever2);
 	Pitcher BowserReliever3 = new Pitcher("BowserReliever3", 20, 15);
 	bowserPitchers.add(BowserReliever3);
-	Pitcher BowserCloser = new Pitcher("BowserMarioCloser", 30, 15);
+	Pitcher BowserCloser = new Pitcher("BowserCloser", 30, 15);
 	bowserPitchers.add(BowserCloser);
 	Pitcher BowserBasePitcher = new Pitcher("BowserBasePitcher", 0, 9999999);
 	bowserPitchers.add(BowserBasePitcher);
@@ -93,6 +93,6 @@ public class Pitchers {
 	yoshiPitchers.add(YoshiCloser);
 	Pitcher YoshiBasePitcher = new Pitcher("YoshiBasePitcher", 0, 9999999);
 	yoshiPitchers.add(YoshiBasePitcher);
-
+	
 	}
 }

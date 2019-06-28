@@ -3,7 +3,7 @@ public class main{
 
 	public static void main(String[] args) {
 		
-		Batters.addBatters();
+	//	Batters.addBatters();
 //		System.out.println(Batters.mario.size());
 //		System.out.println(Batters.mario.remove());
 //		Player temp = Batters.mario.remove();
@@ -11,6 +11,7 @@ public class main{
 //		System.out.println(Batters.mario.size());
 //		Batters.mario.add(temp);
 //		System.out.println(Batters.mario.size());
+		System.out.println(Batters.dk.remove());
 		System.out.println(Batters.mario.remove());
 		System.out.println(Batters.mario.remove());
 		System.out.println(Batters.mario.remove());
@@ -21,6 +22,7 @@ public class main{
 		System.out.println(Batters.mario.remove());
 		System.out.println(Batters.mario.remove());
 //		System.out.println(Batters.mario.remove());
+		System.out.println(Batters.peach.remove());
 	}
 
 }
