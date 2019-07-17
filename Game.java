@@ -39,6 +39,11 @@ public class Game {
 		ArrayDeque<Pitcher> homePitchers = homeTeam.getPitchers();
 		ArrayDeque<Pitcher> awayPitchers = awayTeam.getPitchers();
 
+		// Creating the ArrayDeque for the away score.
+		ArrayDeque<String> awayBases = new ArrayDeque<String>();
+		// Creating the ArrayDeque for the home score.
+		ArrayDeque<Integer> homeBases = new ArrayDeque<Integer>();
+
 		while (!GameOver) {
 			// start the game
 			// awayTeam batting
@@ -49,24 +54,50 @@ public class Game {
 					int value = rand.nextInt(getPitchNumber(homePitcher));
 					String result = atBatResult(value, currBatter);
 					System.out.println(result);
-					if(result.equals("single")){
+					if (result.equals("single")) {
+						awayBases.add(currBatter.name);
 						System.out.println("he hit single");
+						homePitcher.pitchProb -= 4;
 					} else if (result.equals("double")) {
+						awayBases.add(currBatter.name);
+						awayBases.add("0");
 						System.out.println("he hit doub");
+						homePitcher.pitchProb -= 8;
 					} else if (result.equals("triple")) {
+						awayBases.add(currBatter.name);
+						awayBases.add("0");
+						awayBases.add("0");
 						System.out.println("he hit trip");
+						homePitcher.pitchProb -= 10;
 					} else if (result.equals("homerun")) {
+						awayBases.add(currBatter.name);
+						awayBases.add("0");
+						awayBases.add("0");
+						awayBases.add("0");
 						System.out.println("he hit homer");
+						homePitcher.pitchProb -= 12;
 					} else if (result.equals("walk")) {
+						String firstBase = awayBases.peekLast();
+						if (firstBase == "0") {
+							awayBases.pollLast();
+							awayBases.add(currBatter.name);
+						} else if (awayBases.size() == 3) {
+							String thirdBase = awayBases.pollFirst();
+							String secondBase = awayBases.pollFirst();
+							if (thirdBase != "0" && secondBase == "0") {
+								awayBases.add(thirdBase);
+								awayBases.add(firstBase);
+								awayBases.add(currBatter.name);
+							}
+						} else {
+							awayBases.add(currBatter.name);
+						}
 						System.out.println("he hit walk");
+						homePitcher.pitchProb -= 6;
 					} else if (result.equals("out")) {
 						System.out.println("he hit out");
 					}
-
-					
-					
-					
-					
+					checkScore(awayBases, awayScore);
 					Player tempBatter = awayTeam.batters.remove();
 					awayTeam.batters.add(tempBatter);
 
@@ -76,17 +107,17 @@ public class Game {
 			inning++;
 		}
 
-	// homeTeam batting
-	if(inning%2==0)
+		// homeTeam batting
+		if (inning % 2 == 0)
 
-	{
-		while (awayOut < 3) {
-			Pitcher awayPitcher = pitchChange(awayPitchers);
+		{
+			while (awayOut < 3) {
+				Pitcher awayPitcher = pitchChange(awayPitchers);
 
-		}
-		inning++;
+			}
+			inning++;
 
-	} // end of big while loop
+		} // end of big while loop
 	}
 
 	// need 2 teams with their lineups and pitchers
@@ -151,6 +182,15 @@ public class Game {
 			result = "out";
 		}
 		return result;
+	}
+	
+	public static void checkScore(ArrayDeque<String> bases, int score){
+		while(bases.size() > 3) {
+			String curr = bases.pollFirst();
+			if(curr != "0") {
+				score += 1;
+			}
+		}
 	}
 
 }
