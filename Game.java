@@ -23,6 +23,8 @@ public class Game {
 		int awayHits = 0;
 		int awayError = 0;
 		int randSize = 0;
+		int homeHit = 0;
+		int awayHit = 0;
 
 		// maybe more later
 
@@ -73,17 +75,20 @@ public class Game {
 							awayBases.add(currBatter.name);
 							System.out.println(currBatter.name + " singled" + singleDisplay());
 							homePitcher.pitchProb -= 4;
+							awayHit += 1;
 						} else if (result.equals("double")) {
 							awayBases.add(currBatter.name);
 							awayBases.add("0");
 							System.out.println(currBatter.name + " doubled" + XBHDisplay());
 							homePitcher.pitchProb -= 8;
+							awayHit += 1;
 						} else if (result.equals("triple")) {
 							awayBases.add(currBatter.name);
 							awayBases.add("0");
 							awayBases.add("0");
 							System.out.println(currBatter.name + " tripled" + XBHDisplay());
 							homePitcher.pitchProb -= 10;
+							awayHit += 1;
 						} else if (result.equals("homerun")) {
 							awayBases.add(currBatter.name);
 							awayBases.add("0");
@@ -91,6 +96,7 @@ public class Game {
 							awayBases.add("0");
 							System.out.println(currBatter.name + " homered" + XBHDisplay());
 							homePitcher.pitchProb -= 12;
+							awayHit += 1;
 						} else if (result.equals("walk")) {
 
 							String firstBase = awayBases.peekLast();
@@ -191,17 +197,20 @@ public class Game {
 								homeBases.add(currBatter.name);
 								System.out.println(currBatter.name + " singled" + singleDisplay());
 								awayPitcher.pitchProb -= 4;
+								homeHit += 1;
 							} else if (result.equals("double")) {
 								homeBases.add(currBatter.name);
 								homeBases.add("0");
 								System.out.println(currBatter.name + " doubled" + XBHDisplay());
 								awayPitcher.pitchProb -= 8;
+								homeHit += 1;
 							} else if (result.equals("triple")) {
 								homeBases.add(currBatter.name);
 								homeBases.add("0");
 								homeBases.add("0");
 								System.out.println(currBatter.name + " tripled" + XBHDisplay());
 								awayPitcher.pitchProb -= 10;
+								homeHit += 1;
 							} else if (result.equals("homerun")) {
 								homeBases.add(currBatter.name);
 								homeBases.add("0");
@@ -209,6 +218,7 @@ public class Game {
 								homeBases.add("0");
 								System.out.println(currBatter.name + " homered" + XBHDisplay());
 								awayPitcher.pitchProb -= 12;
+								homeHit += 1
 							} else if (result.equals("walk")) {
 								String firstBase = homeBases.peekLast();
 								if (firstBase == "0") {
@@ -290,8 +300,9 @@ public class Game {
 			}
 		}
 		System.out.println("Game over.");
-		System.out.println(
-				"Final Score is " + awayTeam.teamName + ":" + awayScore + " " + homeTeam.teamName + ":" + homeScore);
+		System.out.println("		Runs	Hits	Erros");
+		System.out.println(awayTeam.teamName + "	" + awayScore +"	" + awayHits);
+		System.out.println(homeTeam.teamName + "	" + homeScore +"	" + homeHits);
 	} // end of big while loop
 
 	// need 2 teams with their lineups and pitchers
