@@ -27,7 +27,7 @@ public class Game {
 		Batters.addBatters();
 		Pitchers.addPitcher();
 		GameOver = false;
-		int[] pitchCountArray = {1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10 };
+		int[] pitchCountArray = { 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10 };
 
 		Team awayTeam = getTeam();
 		Team homeTeam = getTeam();
@@ -177,7 +177,7 @@ public class Game {
 						homePitcher.maxpitchCount -= PC;
 						// does bases
 						int tempAway = awayScore;
-						int add = checkScore(awayBases);
+						int add = checkScore(awayBases, currBatter, result);
 						awayScore += add;
 						inningScore += add;
 
@@ -328,7 +328,7 @@ public class Game {
 							awayPitcher.maxpitchCount -= PC;
 							// does bases
 							int tempHome = homeScore;
-							int add = checkScore(homeBases);
+							int add = checkScore(homeBases, currBatter, result);
 							homeScore += add;
 							inningScore += add;
 							if (tempHome != homeScore) {
@@ -450,12 +450,16 @@ public class Game {
 		return result;
 	}
 
-	public static int checkScore(ArrayDeque<String> bases) {
+	public static int checkScore(ArrayDeque<String> bases, Player currBatter, String result) {
 		int val = 0;
 		while (bases.size() > 3) {
 			String curr = bases.pollFirst();
 			if (curr != "0") {
 				val += 1;
+			}
+			//Error is not an RBI
+			if(curr != "0" && result != "error") {
+				currBatter.rbi += 1;
 			}
 		}
 		return val;
@@ -533,17 +537,18 @@ public class Game {
 		int triples = 0;
 		int homeruns = 0;
 		int walks = 0;
+		int rbi = 0;
 		double battingAvg;
 
 		System.out.println();
 		System.out.println(awayTeam.teamName + " stats:");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
-				"Triples", "Homeruns", "Walks");
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
+				"Triples", "Homeruns", "Walks", "RBIs");
 		for (int i = 1; i <= 9; i++) {
 			System.out.println();
 			Player lead = awayTeamMap.get(i);
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
-					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks);
+			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
+					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks, lead.rbi);
 			hits += lead.numHits;
 			atBats += lead.numAtBats;
 			singles += lead.numSingles;
@@ -551,13 +556,14 @@ public class Game {
 			triples += lead.numTriples;
 			homeruns += lead.numHomeruns;
 			walks += lead.numWalks;
+			rbi += lead.rbi;
 		}
 
 		System.out.println();
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
-				homeruns, walks);
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
+				homeruns, walks, rbi);
 		battingAvg = (double) hits / (double) atBats;
 		System.out.println();
 		System.out.printf("Value: %.3f", battingAvg);
@@ -570,14 +576,15 @@ public class Game {
 		triples = 0;
 		homeruns = 0;
 		walks = 0;
+		rbi = 0;
 		System.out.println(homeTeam.teamName + " stats:");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
-				"Triples", "Homeruns", "Walks");
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
+				"Triples", "Homeruns", "Walks", "RBIs");
 		for (int i = 1; i <= 9; i++) {
 			System.out.println();
 			Player lead = homeTeamMap.get(i);
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
-					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks);
+			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
+					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks, lead.rbi);
 			hits += lead.numHits;
 			atBats += lead.numAtBats;
 			singles += lead.numSingles;
@@ -585,12 +592,13 @@ public class Game {
 			triples += lead.numTriples;
 			homeruns += lead.numHomeruns;
 			walks += lead.numWalks;
+			rbi += lead.rbi;
 		}
 		System.out.println();
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
-				homeruns, walks);
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
+				homeruns, walks, rbi);
 		battingAvg = (double) hits / (double) atBats;
 		System.out.println();
 		System.out.printf("Value: %.3f", battingAvg);
