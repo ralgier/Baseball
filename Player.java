@@ -13,6 +13,8 @@ public class Player {
 	public int numAtBats;
 	public int numHits;
 	public int orderNum;
+	public int rbi;
+	public int runs;
 
 	public int getOrderNum() {
 		return orderNum;
@@ -23,7 +25,7 @@ public class Player {
 	}
 
 	public Player(int orderNum, String name, int singleProb, int doubleProb, int tripleProb, int homeRunProb, int walkProb, 
-			int numSingles, int numDoubles, int numTriples, int numHomerun, int numWalk, int numAtBats, int numHits) {
+			int numSingles, int numDoubles, int numTriples, int numHomerun, int numWalk, int numAtBats, int numHits, int rbi, int runs) {
 		this.orderNum = orderNum;
 		this.name = name;
 		this.singleProb = singleProb;
@@ -38,7 +40,26 @@ public class Player {
 		this.numHomeruns = numHomeruns;
 		this.numHits = numHits;
 		this.numWalks = numWalks;
+		this.rbi = rbi;
+		this.runs = runs;
 		
+		
+	}
+
+	public int getRbi() {
+		return rbi;
+	}
+
+	public void setRbi(int rbi) {
+		this.rbi = rbi;
+	}
+
+	public int getRuns() {
+		return runs;
+	}
+
+	public void setRuns(int runs) {
+		this.runs = runs;
 	}
 
 	public int getNumSingles() {
