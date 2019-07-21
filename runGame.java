@@ -3,11 +3,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Game {
+public class runGame {
 
-	static boolean GameOver;
-
-	public static void main(String[] args) {
+	public runGame(Team awayTeam, Team homeTeam) {
+		boolean GameOver;
 		Random rand = new Random();
 		// the essentials
 		int inning = 1;
@@ -22,18 +21,11 @@ public class Game {
 		int inningScore = 0;
 		ArrayList<Integer> AS = new ArrayList<Integer>();
 		ArrayList<Integer> HS = new ArrayList<Integer>();
-
 		// adds in all the batters to the array deques which represent the teams
 		Batters.addBatters();
 		Pitchers.addPitcher();
 		GameOver = false;
-		int[] pitchCountArray = {1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10 };
-
-		Team awayTeam = getTeam();
-		Team homeTeam = getTeam();
-		while (awayTeam.teamName.equals(homeTeam.teamName)) {
-			homeTeam = getTeam();
-		}
+		int[] pitchCountArray = { 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10 };
 
 		ArrayDeque<Pitcher> homePitchers = homeTeam.getPitchers();
 		ArrayDeque<Pitcher> awayPitchers = awayTeam.getPitchers();
@@ -382,27 +374,6 @@ public class Game {
 		HashMap<Integer, Player> homeTeamMap = orderTeam(homeTeam);
 		printBattingStats(awayTeamMap, homeTeamMap, awayTeam, homeTeam);
 	} // end of big while loop
-
-	// need 2 teams with their lineups and pitchers
-	public static Team getTeam() {
-		Random rand = new Random();
-		int x = rand.nextInt(6);
-		Team team = null;
-		if (x == 0) {
-			team = new Team(Pitchers.marioPitchers, Batters.mario, "Fireballs");
-		} else if (x == 1) {
-			team = new Team(Pitchers.bowserPitchers, Batters.bowser, "Monsters");
-		} else if (x == 2) {
-			team = new Team(Pitchers.peachPitchers, Batters.peach, "Roses");
-		} else if (x == 3) {
-			team = new Team(Pitchers.warioPitchers, Batters.wario, "Garlics");
-		} else if (x == 4) {
-			team = new Team(Pitchers.dkPitchers, Batters.dk, "Explorers");
-		} else if (x == 5) {
-			team = new Team(Pitchers.yoshiPitchers, Batters.yoshi, "Eggs");
-		}
-		return team;
-	}
 
 	// checks if you need a pitch change and changes pitcher
 	public static Pitcher pitchChange(ArrayDeque<Pitcher> teamPitchers) {
