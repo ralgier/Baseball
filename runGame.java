@@ -29,8 +29,6 @@ public class runGame {
 
 		ArrayDeque<Pitcher> homePitchers = homeTeam.getPitchers();
 		ArrayDeque<Pitcher> awayPitchers = awayTeam.getPitchers();
-
-		// Creating the ArrayDeque for the away score.
 		ArrayDeque<String> awayBases = new ArrayDeque<String>();
 		ArrayDeque<String> homeBases = new ArrayDeque<String>();
 
@@ -44,31 +42,23 @@ public class runGame {
 				// awayTeam batting
 				if (inning % 2 == 1) {
 					Pitcher currPitcher = homePitchers.element();
-					System.out.println(" ");
-					System.out.println("Top of inning: " + (inning + 1) / 2);
-					System.out.printf("%-15s %5s %5s %6s", "", "Runs", "Hits", "Errors");
-					System.out.println();
-					System.out.printf("%-15s %5s %5s %5s", awayTeam.teamName, awayScore, awayHits, awayError);
-					System.out.println();
-					System.out.printf("%-15s %5s %5s %5s", homeTeam.teamName, homeScore, homeHits, homeError);
-					System.out.println();
-					System.out.println();
+					printScoreboard(inning, awayTeam, awayScore, awayHits, awayError, homeTeam, homeScore, homeHits,
+							homeError);
 					awayBases.clear();
 					while (awayOut < 3) {
+						
 						Pitcher homePitcher = pitchChange(homePitchers);
 						if (currPitcher.name != homePitcher.name) {
 							currPitcher = homePitchers.element();
-							System.out.printf("%30s",
-									"Pitching Change. " + homePitcher.name + " is now pitching." + "\n");
+							System.out.printf("%30s", "Pitching Change. " + homePitcher.name + " is now pitching." + "\n");
 						}
 						Player currBatter = awayTeam.batters.element();
 						int value = rand.nextInt(getPitchNumber(homePitcher));
 						String result = atBatResult(value, currBatter);
-
+						
 						if (result.equals("single")) {
 							awayBases.add(currBatter.name);
-							System.out.printf("%-65s %1s", currBatter.name + " singled" + singleDisplay(),
-									awayBases + "\n");
+							System.out.printf("%-65s %1s", currBatter.name + " singled" + singleDisplay(), awayBases + "\n");
 							currBatter.numSingles += 1;
 							currBatter.numHits += 1;
 							currBatter.numAtBats += 1;
@@ -169,7 +159,7 @@ public class runGame {
 						homePitcher.maxpitchCount -= PC;
 						// does bases
 						int tempAway = awayScore;
-						int add = checkScore(awayBases);
+						int add = checkScore(awayBases, currBatter, result);
 						awayScore += add;
 						inningScore += add;
 
@@ -193,15 +183,8 @@ public class runGame {
 					HS.add(null);
 					GameOver = true;
 				} else {
-					System.out.println();
-					System.out.println("Bottom of inning: " + inning / 2);
-					System.out.printf("%-15s %5s %5s %6s", "", "Runs", "Hits", "Errors");
-					System.out.println();
-					System.out.printf("%-15s %5s %5s %5s", awayTeam.teamName, awayScore, awayHits, awayError);
-					System.out.println();
-					System.out.printf("%-15s %5s %5s %5s", homeTeam.teamName, homeScore, homeHits, homeError);
-					System.out.println();
-					System.out.println();
+					printScoreboard(inning, awayTeam, awayScore, awayHits, awayError, homeTeam, homeScore, homeHits,
+							homeError);
 					homeBases.clear();
 
 					// awayTeam batting
@@ -320,7 +303,7 @@ public class runGame {
 							awayPitcher.maxpitchCount -= PC;
 							// does bases
 							int tempHome = homeScore;
-							int add = checkScore(homeBases);
+							int add = checkScore(homeBases, currBatter, result);
 							homeScore += add;
 							inningScore += add;
 							if (tempHome != homeScore) {
@@ -421,12 +404,16 @@ public class runGame {
 		return result;
 	}
 
-	public static int checkScore(ArrayDeque<String> bases) {
+	public static int checkScore(ArrayDeque<String> bases, Player currBatter, String result) {
 		int val = 0;
 		while (bases.size() > 3) {
 			String curr = bases.pollFirst();
 			if (curr != "0") {
 				val += 1;
+			}
+			//Error is not an RBI
+			if(curr != "0" && result != "error") {
+				currBatter.rbi += 1;
 			}
 		}
 		return val;
@@ -504,17 +491,18 @@ public class runGame {
 		int triples = 0;
 		int homeruns = 0;
 		int walks = 0;
+		int rbi = 0;
 		double battingAvg;
 
 		System.out.println();
 		System.out.println(awayTeam.teamName + " stats:");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
-				"Triples", "Homeruns", "Walks");
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
+				"Triples", "Homeruns", "Walks", "RBIs");
 		for (int i = 1; i <= 9; i++) {
 			System.out.println();
 			Player lead = awayTeamMap.get(i);
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
-					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks);
+			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
+					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks, lead.rbi);
 			hits += lead.numHits;
 			atBats += lead.numAtBats;
 			singles += lead.numSingles;
@@ -522,13 +510,14 @@ public class runGame {
 			triples += lead.numTriples;
 			homeruns += lead.numHomeruns;
 			walks += lead.numWalks;
+			rbi += lead.rbi;
 		}
 
 		System.out.println();
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
-				homeruns, walks);
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
+				homeruns, walks, rbi);
 		battingAvg = (double) hits / (double) atBats;
 		System.out.println();
 		System.out.printf("Value: %.3f", battingAvg);
@@ -541,14 +530,15 @@ public class runGame {
 		triples = 0;
 		homeruns = 0;
 		walks = 0;
+		rbi = 0;
 		System.out.println(homeTeam.teamName + " stats:");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
-				"Triples", "Homeruns", "Walks");
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
+				"Triples", "Homeruns", "Walks", "RBIs");
 		for (int i = 1; i <= 9; i++) {
 			System.out.println();
 			Player lead = homeTeamMap.get(i);
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
-					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks);
+			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
+					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks, lead.rbi);
 			hits += lead.numHits;
 			atBats += lead.numAtBats;
 			singles += lead.numSingles;
@@ -556,12 +546,13 @@ public class runGame {
 			triples += lead.numTriples;
 			homeruns += lead.numHomeruns;
 			walks += lead.numWalks;
+			rbi += lead.rbi;
 		}
 		System.out.println();
 		System.out.println(
 				"--------------------------------------------------------------------------------------------------------------");
-		System.out.printf("%15s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
-				homeruns, walks);
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
+				homeruns, walks, rbi);
 		battingAvg = (double) hits / (double) atBats;
 		System.out.println();
 		System.out.printf("Value: %.3f", battingAvg);
@@ -579,6 +570,19 @@ public class runGame {
 	public static void clearGameStats(Team team) {
 		Batters.removeBatters();
 		Batters.addBatters();
+	}
+
+	public static void printScoreboard(int inning, Team awayTeam, int awayScore, int awayHits, int awayError,
+			Team homeTeam, int homeScore, int homeHits, int homeError) {
+		System.out.println(" ");
+		System.out.println("Top of inning: " + (inning + 1) / 2);
+		System.out.printf("%-15s %5s %5s %6s", "", "Runs", "Hits", "Errors");
+		System.out.println();
+		System.out.printf("%-15s %5s %5s %5s", awayTeam.teamName, awayScore, awayHits, awayError);
+		System.out.println();
+		System.out.printf("%-15s %5s %5s %5s", homeTeam.teamName, homeScore, homeHits, homeError);
+		System.out.println();
+		System.out.println();
 	}
 
 }
