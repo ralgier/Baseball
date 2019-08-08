@@ -15,17 +15,20 @@ public class Player {
 	public int orderNum;
 	public int rbi;
 	public int runs;
-
-	public int getOrderNum() {
-		return orderNum;
-	}
-
-	public void setOrderNum(int orderNum) {
-		this.orderNum = orderNum;
-	}
+	public int seasonSingles;
+	public int seasonDoubles;
+	public int seasonTriples;
+	public int seasonHomeruns;
+	public int seasonWalks;
+	public int seasonAtBats;
+	public int seasonHits;
+	public int seasonrbi;
+	public int seasonruns;
 
 	public Player(int orderNum, String name, int singleProb, int doubleProb, int tripleProb, int homeRunProb, int walkProb, 
-			int numSingles, int numDoubles, int numTriples, int numHomerun, int numWalk, int numAtBats, int numHits, int rbi, int runs) {
+			int numSingles, int numDoubles, int numTriples, int numHomerun, int numWalk, int numAtBats, int numHits, int rbi, int runs, 
+			int seasonSingles, int seasonDoubles, int seasonTriples, int seasonHomeruns,int seasonWalks,
+			int seasonAtBats, int seasonHits, int seasonrbi,int seasonruns) {
 		this.orderNum = orderNum;
 		this.name = name;
 		this.singleProb = singleProb;
@@ -37,13 +40,82 @@ public class Player {
 		this.numAtBats = numAtBats;
 		this.numDoubles = numDoubles;
 		this.numTriples = numTriples;
-		this.numHomeruns = numHomeruns;
+		this.numHomeruns = numHomerun;
 		this.numHits = numHits;
-		this.numWalks = numWalks;
+		this.numWalks = numWalk;
 		this.rbi = rbi;
 		this.runs = runs;
+		this.seasonSingles = seasonSingles;
+		this.seasonDoubles = seasonDoubles;
+		this.seasonTriples = seasonTriples;
+		this.seasonHomeruns = seasonHomeruns;
+		this.seasonWalks = seasonWalks;
+		this.seasonAtBats = seasonAtBats;
+		this.seasonHits = seasonHits;
+		this.seasonrbi = seasonrbi;
+		this.seasonruns = seasonruns;
 		
-		
+	}
+	public int getSeasonSingles() {
+		return seasonSingles;
+	}
+	public void setSeasonSingles(int seasonSingles) {
+		this.seasonSingles = seasonSingles;
+	}
+	public int getSeasonDoubles() {
+		return seasonDoubles;
+	}
+	public void setSeasonDoubles(int seasonDoubles) {
+		this.seasonDoubles = seasonDoubles;
+	}
+	public int getSeasonTriples() {
+		return seasonTriples;
+	}
+	public void setSeasonTriples(int seasonTriples) {
+		this.seasonTriples = seasonTriples;
+	}
+	public int getSeasonHomeruns() {
+		return seasonHomeruns;
+	}
+	public void setSeasonHomeruns(int seasonHomeruns) {
+		this.seasonHomeruns = seasonHomeruns;
+	}
+	public int getSeasonWalks() {
+		return seasonWalks;
+	}
+	public void setSeasonWalks(int seasonWalks) {
+		this.seasonWalks = seasonWalks;
+	}
+	public int getSeasonAtBats() {
+		return seasonAtBats;
+	}
+	public void setSeasonAtBats(int seasonAtBats) {
+		this.seasonAtBats = seasonAtBats;
+	}
+	public int getSeasonHits() {
+		return seasonHits;
+	}
+	public void setSeasonHits(int seasonHits) {
+		this.seasonHits = seasonHits;
+	}
+	public int getSeasonrbi() {
+		return seasonrbi;
+	}
+	public void setSeasonrbi(int seasonrbi) {
+		this.seasonrbi = seasonrbi;
+	}
+	public int getSeasonruns() {
+		return seasonruns;
+	}
+	public void setSeasonruns(int seasonruns) {
+		this.seasonruns = seasonruns;
+	}
+	public int getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(int orderNum) {
+		this.orderNum = orderNum;
 	}
 
 	public int getRbi() {
