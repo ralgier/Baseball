@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class runSeasonGame {
 
-	public runSeasonGame(Team awayTeam, Team homeTeam) {
+	public static void runGame(Team awayTeam, Team homeTeam) {
 		boolean GameOver;
 		Random rand = new Random();
 		// the essentials
@@ -44,7 +44,6 @@ public class runSeasonGame {
 						if (currPitcher.name != homePitcher.name) {
 							currPitcher = homeTeam.pitchers.element();
 						}
-						System.out.println(homePitcher.name);
 						Player currBatter = awayTeam.batters.element();
 						int value = rand.nextInt(getPitchNumber(homePitcher));
 						String result = atBatResult(value, currBatter);
@@ -306,8 +305,26 @@ public class runSeasonGame {
 		}
 		System.out.printf("%-6s %-6s %-6s", "  " + homeScore," " +  homeHits, "  " + homeError);
 		System.out.println();
+		orderPitchers(homeTeam, awayTeam);
+		if(awayScore > homeScore) {
+			awayTeam.numWins += 1;
+			homeTeam.numLoss += 1;
+		}else if(awayScore < homeScore) {
+			awayTeam.numLoss += 1;
+			homeTeam.numWins += 1;
+		}
+		awayTeam.RS += awayScore;
+		homeTeam.RS += homeScore;
+		awayTeam.RA += homeScore;
+		homeTeam.RA += awayScore;
+		awayTeam.RD += (awayScore - homeScore);
+		homeTeam.RD += (homeScore - awayScore);
+		awayTeam.gamesPlayed += 1;
+		homeTeam.gamesPlayed += 1;
+		awayTeam.winPct = (awayTeam.numWins / (double) awayTeam.gamesPlayed);
+		homeTeam.winPct = (homeTeam.numWins / (double) homeTeam.gamesPlayed);
 	} // end of big while loop
-
+	
 	// checks if you need a pitch change and changes pitcher
 	public static Pitcher pitchChange(ArrayDeque<Pitcher> teamPitchers) {
 		Pitcher currPitcher = teamPitchers.element();
@@ -423,16 +440,10 @@ public class runSeasonGame {
 			team.batters.add(teamMap.get(i));
 		}
 	}
-	public static void orderPitchers (Team team) {
-		HashMap<Integer, Pitcher> pitchMap = new HashMap<Integer, Pitcher>();
-		for (Pitcher lead : team.pitchers) {
-			int a = lead.num;
-			pitchMap.put(a, lead);
-		}
-		team.pitchers.clear();
-		for(int i = 1; i <= 6; i++) {
-			team.pitchers.add(pitchMap.get(i));
-		}
+	public static void orderPitchers (Team homeTeam, Team awayTeam) {
+		homeTeam.pitchers.clear();
+		awayTeam.pitchers.clear();
+		Pitchers.addPitcher();
 	}
 	
 }
