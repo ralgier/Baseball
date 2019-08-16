@@ -11,9 +11,10 @@ public class Team {
 	int RA;
 	int RD;
 	int gamesPlayed;
+	double winPct;
 	
 	public Team(ArrayDeque<Pitcher> arms, ArrayDeque<Player> bats, String name, int numWins, int numLoss,
-			int RS, int RA, int RD, int gamesPlayed) {
+			int RS, int RA, int RD, int gamesPlayed, double winPct) {
 		this.pitchers = arms;
 		this.batters = bats;
 		this.teamName = name;
@@ -23,6 +24,15 @@ public class Team {
 		this.RA = RA;
 		this.RD = RD;
 		this.gamesPlayed = gamesPlayed;
+		this.winPct = winPct;
+	}
+
+	public double getWinPct() {
+		return winPct;
+	}
+
+	public void setWinPct(double winPct) {
+		this.winPct = winPct;
 	}
 
 	public int getNumWins() {
