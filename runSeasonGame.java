@@ -22,8 +22,7 @@ public class runSeasonGame {
 		ArrayList<Integer> AS = new ArrayList<Integer>();
 		ArrayList<Integer> HS = new ArrayList<Integer>();
 		// adds in all the batters to the array deques which represent the teams
-		Batters.addBatters();
-		Pitchers.addPitcher();
+		
 		GameOver = false;
 		int[] pitchCountArray = { 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10 };
 		ArrayDeque<String> awayBases = new ArrayDeque<String>();
@@ -283,6 +282,8 @@ public class runSeasonGame {
 			}
 		
 		}
+		
+		//print the scoreboard for each game (3 line style)
 		System.out.printf("%-16s", "" + "\n");
 		for (int i = 1; i <= AS.size(); i++) {
 			System.out.printf("%-3s", i);
@@ -323,6 +324,7 @@ public class runSeasonGame {
 		homeTeam.gamesPlayed += 1;
 		awayTeam.winPct = (awayTeam.numWins / (double) awayTeam.gamesPlayed);
 		homeTeam.winPct = (homeTeam.numWins / (double) homeTeam.gamesPlayed);
+
 	} // end of big while loop
 	
 	// checks if you need a pitch change and changes pitcher
@@ -394,12 +396,12 @@ public class runSeasonGame {
 		return val;
 	}
 
+	//print r
 	public static String outDisplay() {
 		String val = "";
 		Random outRand = new Random();
 		HashMap<Integer, String> outMap = new HashMap<Integer, String>();
 
-		// double play????
 		outMap.put(1, " grounded out to first.");
 		outMap.put(2, " grounded out to second.");
 		outMap.put(3, " grounded out to third.");
@@ -415,20 +417,8 @@ public class runSeasonGame {
 		val = outMap.get(key);
 		return val;
 	}
-
-	public static void clearGameStats(Team team) {
-		Batters.removeBatters();
-		Batters.addBatters();
-	}
-	public static HashMap<Integer, Player> createHashmap (Team team) {
-		HashMap<Integer, Player> teamMap = new HashMap<Integer, Player>();
-		for (Player lead : team.batters) {
-			int a = lead.orderNum;
-			teamMap.put(a, lead);
-		}
-		return teamMap;
-	}
 	
+	//put the batters in order after the game
 	public static void orderBatters (Team team) {
 		HashMap<Integer, Player> teamMap = new HashMap<Integer, Player>();
 		for (Player lead : team.batters) {
@@ -440,6 +430,7 @@ public class runSeasonGame {
 			team.batters.add(teamMap.get(i));
 		}
 	}
+	//put the pitchers in order after the game
 	public static void orderPitchers (Team homeTeam, Team awayTeam) {
 		homeTeam.pitchers.clear();
 		awayTeam.pitchers.clear();

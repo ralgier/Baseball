@@ -22,8 +22,6 @@ public class runGame {
 		ArrayList<Integer> AS = new ArrayList<Integer>();
 		ArrayList<Integer> HS = new ArrayList<Integer>();
 		// adds in all the batters to the array deques which represent the teams
-		Batters.addBatters();
-		Pitchers.addPitcher();
 		GameOver = false;
 		int[] pitchCountArray = { 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 7, 8, 9, 10 };
 
@@ -520,7 +518,7 @@ public class runGame {
 				homeruns, walks, rbi);
 		battingAvg = (double) hits / (double) atBats;
 		System.out.println();
-		System.out.printf("Value: %.3f", battingAvg);
+		System.out.printf("Team Average: %.3f", battingAvg);
 		System.out.println();
 		System.out.println();
 		hits = 0;
@@ -555,7 +553,7 @@ public class runGame {
 				homeruns, walks, rbi);
 		battingAvg = (double) hits / (double) atBats;
 		System.out.println();
-		System.out.printf("Value: %.3f", battingAvg);
+		System.out.printf("Team Average: %.3f", battingAvg);
 	}
 
 	public static HashMap<Integer, Player> orderTeam(Team team) {
@@ -565,11 +563,6 @@ public class runGame {
 			teamMap.put(a, lead);
 		}
 		return teamMap;
-	}
-
-	public static void clearGameStats(Team team) {
-		Batters.removeBatters();
-		Batters.addBatters();
 	}
 
 	public static void printScoreboard(int inning, Team awayTeam, int awayScore, int awayHits, int awayError,
