@@ -1,39 +1,60 @@
 import java.text.DecimalFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 
 //schedule, playoffs, check ind player stats at end of season
 
-public class main {
+public class Main {
 
+	//create all the teams
 	static Team Fireballs = new Team(Pitchers.marioPitchers, Batters.mario, "Fireballs", 0, 0, 0, 0, 0, 0, 0);
 	static Team Monsters = new Team(Pitchers.bowserPitchers, Batters.bowser, "Monsters", 0, 0, 0, 0, 0, 0, 0);
 	static Team Roses = new Team(Pitchers.peachPitchers, Batters.peach, "Roses", 0, 0, 0, 0, 0, 0, 0);
 	static Team Garlics = new Team(Pitchers.warioPitchers, Batters.wario, "Garlics", 0, 0, 0, 0, 0, 0, 0);
 	static Team Explorers = new Team(Pitchers.dkPitchers, Batters.dk, "Explorers", 0, 0, 0, 0, 0, 0, 0);
 	static Team Eggs = new Team(Pitchers.yoshiPitchers, Batters.yoshi, "Eggs", 0, 0, 0, 0, 0, 0, 0);
-
+	
+	ArrayDeque<Team> league1 = new ArrayDeque<Team>();
+	
+	static int hrMax = 0;
+	static int rbiMax = 0;
+	static int hitMax = 0;
+	static double batAvgMax = 0;
+	static String hrKing;
+	static String rbiKing;
+	static String hitKing;
+	static String batAvgKing;
+	
 	public static void main(String[] args) {
+		//put all the teams in hashmap for season
 		HashMap<Integer, Team> teams = new HashMap<Integer, Team>();
+		ArrayDeque<HashMap<Integer, Player>> league1 = new ArrayDeque<HashMap<Integer, Player>>();
 		teams.put(1, Fireballs);
 		teams.put(2, Monsters);
 		teams.put(3, Roses);
 		teams.put(4, Garlics);
 		teams.put(5, Explorers);
 		teams.put(6, Eggs);
-
+		//add all the batters and pitchers (This is where we fix the stats issue -- DO NOT pput this in runGame)
 		Batters.addBatters();
 		Pitchers.addPitcher();
 
-		for (int i = 1; i < 4; i++) {
+		//Order all the players to print stats
+		HashMap<Integer, Player> FireballsMap = orderTeam(Fireballs);
+		HashMap<Integer, Player> RosesMap = orderTeam(Roses);
+		HashMap<Integer, Player> GarlicsMap = orderTeam(Garlics);
+		HashMap<Integer, Player> EggsMap = orderTeam(Eggs);
+		HashMap<Integer, Player> MonstersMap = orderTeam(Monsters);
+		HashMap<Integer, Player> ExplorersMap = orderTeam(Explorers);
+				
+		//run Games
+		for (int i = 1; i < 32; i++) {
 			runSeasonGame.runGame(Fireballs, Roses);
 			runSeasonGame.runGame(Eggs, Explorers);
 			runSeasonGame.runGame(Monsters, Garlics);
@@ -50,12 +71,31 @@ public class main {
 			runSeasonGame.runGame(Eggs, Monsters);
 			runSeasonGame.runGame(Roses, Explorers);
 		}
+		
+		//prints individual batters
+		printBattingStats(FireballsMap, Fireballs);
+		printBattingStats(RosesMap, Roses);
+		printBattingStats(GarlicsMap, Garlics);
+		printBattingStats(MonstersMap, Monsters);
+		printBattingStats(EggsMap, Eggs);
+		printBattingStats(ExplorersMap, Explorers);
 
+		//prints team standings
 		printTeamSeasonStats(teams);
+		
+		//Add ordered lineups to the league
+		league1.add(FireballsMap);
+		league1.add(RosesMap);
+		league1.add(EggsMap);
+		league1.add(MonstersMap);
+		league1.add(ExplorersMap);
+		league1.add(GarlicsMap);
+		//Find the leaders of categories
+		leaders(league1);
 	}
 
+	//method to print season stats
 	public static void printTeamSeasonStats(HashMap<Integer, Team> teams) {
-		DecimalFormat df = new DecimalFormat("#.###");
 		System.out.println();
 		System.out.printf("%-10s %-6s %-6s %-7s %-5s %-5s %-5s", "Team Name", "Wins", "Losses", " PCT", "RS", "RA",
 				"RD");
@@ -63,79 +103,11 @@ public class main {
 		for (Team x : teams.values()) {
 			standings.put(x, x.winPct); 
 		}
+		//calls sorting method
 		sortHashMapByValues(standings);
-		//for (Team x : teams.values()) {
-		//	printBattingStats(x); 
-		//}
 	}
 	
-	public static void printBattingStats(Team Team) {
-		for(Player x : Team.batters) {
-			int hits = 0;
-			int atBats = 0;
-			int singles = 0;
-			int doubles = 0;
-			int triples = 0;
-			int homeruns = 0;
-			int walks = 0;
-			int rbi = 0;
-			double battingAvg;
-	
-			System.out.println();
-			System.out.println(Team.teamName + " stats:");
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
-					"Triples", "Homeruns", "Walks", "RBIs");
-			for (int i = 1; i <= 9; i++) {
-				System.out.println();
-				Player lead = Team.getBatters().element();
-				System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
-						lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks, lead.rbi);
-				hits += lead.numHits;
-				atBats += lead.numAtBats;
-				singles += lead.numSingles;
-				doubles += lead.numDoubles;
-				triples += lead.numTriples;
-				homeruns += lead.numHomeruns;
-				walks += lead.numWalks;
-				rbi += lead.rbi;
-				Team.batters.remove(lead);
-			}
-	
-			System.out.println();
-			System.out.println(
-					"--------------------------------------------------------------------------------------------------------------");
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
-					homeruns, walks, rbi);
-			battingAvg = (double) hits / (double) atBats;
-			System.out.println();
-			System.out.printf("Value: %.3f", battingAvg);
-			System.out.println();
-			System.out.println();
-			hits = 0;
-			atBats = 0;
-			singles = 0;
-			doubles = 0;
-			triples = 0;
-			homeruns = 0;
-			walks = 0;
-			rbi = 0;
-			System.out.println();
-			System.out.println(
-					"--------------------------------------------------------------------------------------------------------------");
-			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
-					homeruns, walks, rbi);
-			battingAvg = (double) hits / (double) atBats;
-			System.out.println();
-			System.out.printf("Value: %.3f", battingAvg);
-		}
-	}
-//	public static void seasonStat (Team team) {
-//		for(Player x : team.batters) {
-//			x.seasonAtBats += x.numAtBats;
-//			x.setNumAtBats(0);
-//			
-//		}
-//	}
+	//method to sort the teams by win pct
 	public static <T> LinkedHashMap<Team, Double> sortHashMapByValues(
 	        HashMap<Team, Double> passedMap) {
 	    List<Team> mapKeys = new ArrayList<>(passedMap.keySet());
@@ -171,5 +143,105 @@ public class main {
 	    return sortedMap;
 	}
 	
+	//prints individual stats method (one team at a time)
+	public static void printBattingStats(HashMap<Integer, Player> teamMap, Team team) {
+
+		int hits = 0;
+		int atBats = 0;
+		int singles = 0;
+		int doubles = 0;
+		int triples = 0;
+		int homeruns = 0;
+		int walks = 0;
+		int rbi = 0;
+		double battingAvg;
+
+		System.out.println();
+		System.out.println(team.teamName + " stats:");
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "PlayerName", "Hits-AtBats", "Singles", "Doubles",
+				"Triples", "Homeruns", "Walks", "RBIs");
+		for (int i = 1; i <= 9; i++) {
+			System.out.println();
+			Player lead = teamMap.get(i);
+			System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", lead.name, lead.numHits + "-" + lead.numAtBats,
+					lead.numSingles, lead.numDoubles, lead.numTriples, lead.numHomeruns, lead.numWalks, lead.rbi);
+			hits += lead.numHits;
+			atBats += lead.numAtBats;
+			singles += lead.numSingles;
+			doubles += lead.numDoubles;
+			triples += lead.numTriples;
+			homeruns += lead.numHomeruns;
+			walks += lead.numWalks;
+			rbi += lead.rbi;
+		}
+
+		System.out.println();
+		System.out.println(
+				"--------------------------------------------------------------------------------------------------------------");
+		System.out.printf("%15s %10s %10s %10s %10s %10s %10s %10s", "Total", hits + "-" + atBats, singles, doubles, triples,
+				homeruns, walks, rbi);
+		battingAvg = (double) hits / (double) atBats;
+		System.out.println();
+		System.out.printf("Team Average: %.3f", battingAvg);
+		System.out.println();
+		System.out.println();
+		hits = 0;
+		atBats = 0;
+		singles = 0;
+		doubles = 0;
+		triples = 0;
+		homeruns = 0;
+		walks = 0;
+		rbi = 0;
+	}
+
+	//method to order the teams by batting order
+	public static HashMap<Integer, Player> orderTeam(Team team) {
+		HashMap<Integer, Player> teamMap = new HashMap<Integer, Player>();
+		for (Player lead : team.batters) {
+			int a = lead.orderNum;
+			teamMap.put(a, lead);
+		}
+		return teamMap;
+	}
+	
+	//Method to get batting leaders in stats categories
+	public static void leaders(ArrayDeque<HashMap<Integer, Player>> league) {
+		int leagueSize = league.size();
+		DecimalFormat df = new DecimalFormat("#.###");
+		for(int i = 0; i < leagueSize; i++) {
+			for(int j = 1; j <= 9; j++) {
+				Player x = league.getFirst().get(j);
+				int hrTemp = x.numHomeruns;
+				int rbiTemp = x.rbi;
+				int hitTemp = x.numHits;
+				double batAvgTemp = ((double)x.numHits / (double)x.numAtBats);
+				String tempName = x.name;
+				if(hrTemp > hrMax) {
+					hrMax = hrTemp;
+					hrKing = tempName;
+				}
+				if(rbiTemp > rbiMax) {
+					rbiMax = rbiTemp;
+					rbiKing = tempName;
+				}
+				if(hitTemp > hitMax) {
+					hitMax = hitTemp;
+					hitKing = tempName;
+				}
+				if(batAvgTemp > batAvgMax) {
+					batAvgMax = batAvgTemp;
+					batAvgKing = tempName;
+				}
+			}
+			league.remove();
+		}
+		System.out.println();
+		System.out.println();
+		System.out.println("HR Leader: "+ hrKing + " "+ hrMax);
+		System.out.println("RBI Leader: "+ rbiKing + " "+ rbiMax);
+		System.out.println("Hit Leader: "+ hitKing + " "+ hitMax);
+		System.out.printf("Batting Average Leader: "+ batAvgKing + " "+ df.format(batAvgMax));
+	}
 
 }
