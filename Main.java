@@ -29,6 +29,12 @@ public class Main {
 	static int doubleMax = 0;
 	static int tripleMax = 0;
 	static int walkMax = 0;
+	static Team oneSeed;
+	static Team twoSeed;
+	static Team threeSeed;
+	static Team fourSeed;
+	static Team victor1;
+	static Team victor2;
 
 	public static void main(String[] args) {
 		// put all the teams in hashmap for season
@@ -92,6 +98,59 @@ public class Main {
 		league1.add(GarlicsMap);
 		// Find the leaders of categories
 		leaders(league1);
+		System.out.println();
+		System.out.println();
+		//PLAYOFFS
+		System.out.println("Playoffs have now begun.");
+		System.out.println("1 Seed: "+oneSeed.teamName);
+		System.out.println("2 Seed: "+twoSeed.teamName);
+		System.out.println("3 Seed: "+threeSeed.teamName);
+		System.out.println("4 Seed: "+fourSeed.teamName);
+		System.out.println();
+		oneSeed.numWins = 0;
+		twoSeed.numWins = 0;
+		threeSeed.numWins = 0;
+		fourSeed.numWins = 0;
+		Boolean seriesOver = false;
+		while(seriesOver == false) {
+			runSeasonGame.runGame(fourSeed, oneSeed);
+			if(oneSeed.numWins == 3) {
+				victor1 = oneSeed;
+				System.out.println("Series over. "+oneSeed.teamName+" have advanced.");
+				seriesOver = true;
+			}
+			else if (fourSeed.numWins == 3) {
+				victor1 = fourSeed;
+				System.out.println("Series over. "+fourSeed.teamName+" have advanced.");
+				seriesOver = true;
+			}
+		}
+		seriesOver = false;
+		while(seriesOver == false) {
+			runSeasonGame.runGame(threeSeed, twoSeed);
+			if(twoSeed.numWins == 3) {
+				victor2 = twoSeed;
+				System.out.println("Series over. "+twoSeed.teamName+" have advanced.");
+				seriesOver = true;
+			}
+			else if (threeSeed.numWins == 3) {
+				victor2 = threeSeed;
+				System.out.println("Series over. "+threeSeed.teamName+" have advanced.");
+				seriesOver = true;
+			}
+		}
+		seriesOver = false;
+		while(seriesOver == false) {
+			runSeasonGame.runGame(victor2, victor1);
+			if(victor1.numWins == 7) {
+				System.out.println("Series over. "+victor1.teamName+" have won it all.");
+				seriesOver = true;
+			}
+			else if (victor2.numWins == 7) {
+				System.out.println("Series over. "+victor2.teamName+" have won it all.");
+				seriesOver = true;
+			}
+		}
 	}
 
 	// method to print season stats
